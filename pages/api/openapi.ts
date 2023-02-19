@@ -4,7 +4,8 @@ import { supabase } from "./supabase";
 
 const openApi = async (req: NextApiRequest, res: NextApiResponse) => {
   const { message, userid } = req.body;
-  console.log(message, userid);
+  //form data is x-www-form-urlencoded
+  // console.log(message, userid);
   const config = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
   });
@@ -28,7 +29,7 @@ const openApi = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  console.log(message, userid, response.data.choices[0].text);
+  // console.log(message, userid, response.data.choices[0].text);
 
   const text: any = response.data.choices[0].text;
   const aitext = text.replace(/^\n\n/, "");
