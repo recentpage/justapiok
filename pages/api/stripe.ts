@@ -15,3 +15,5 @@ const stripecheckout = async (req: NextApiRequest, res: NextApiResponse) => {
   });
   res.status(200).json({ client_secret: paymentIntent.client_secret });
 };
+
+export default stripecheckout;
