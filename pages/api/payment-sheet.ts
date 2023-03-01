@@ -27,7 +27,7 @@ const stripecheckoutsheet = async (
     }
     if (data) {
       const stripeid = data[0].stripeid;
-      console.log(stripeid);
+      console.log(data);
       if (stripeid) {
         customerid = stripeid;
       }
