@@ -40,7 +40,7 @@ const stripecheckoutsheet = async (
         const { error } = await supabase
           .from("profiles")
           .update({ stripeid: customerid })
-          .eq("id", userid);
+          .match({ id: userid });
         if (error) {
           console.log(error);
           res.status(500).json({ error: error.message });
@@ -55,7 +55,7 @@ const stripecheckoutsheet = async (
     const { error } = await supabase
       .from("profiles")
       .update({ stripeid: customerid })
-      .eq("id", userid);
+      .match({ id: userid });
     if (error) {
       console.log(error);
       res.status(500).json({ error: error.message });
