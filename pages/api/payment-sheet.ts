@@ -32,7 +32,7 @@ export default async function stripecheckoutsheet(
           const { error } = await supabase
             .from("profiles")
             .update({ stripeid: customerid })
-            .match({ id: userid });
+            .eq("id", userid);
           if (error) throw error;
         }
       }
@@ -44,7 +44,7 @@ export default async function stripecheckoutsheet(
       const { error } = await supabase
         .from("profiles")
         .update({ stripeid: customerid })
-        .match({ id: userid });
+        .eq("id", userid);
       if (error) throw error;
     }
 
