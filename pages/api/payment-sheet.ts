@@ -33,7 +33,7 @@ export default async function stripecheckoutsheet(
           console.log("new customerid:", customerid);
           const { data, error } = await supabase
             .from("profiles")
-            .update({ stripeid: customerid })
+            .update({ stripeid: customerid, prodate: JSON.stringify(new Date()) })
             .eq("id", userid)
             .select();
           console.log("data:", data);
