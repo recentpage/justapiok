@@ -13,7 +13,7 @@ const upgradePro = async (req: NextApiRequest, res: NextApiResponse) => {
   //@ts-ignore
   const stripe = initStripe(process.env.STRIPE_SECRET_KEY);
   const sig = req.headers["stripe-signature"];
-  const signingSecret = "whsec_ST7rc3GtfhFtld0kLbtkYUWpKXDzFuQ2";
+  const signingSecret = "whsec_ajKo3kUqY6FPLDO19uEM6857JAa5zhfZ";
   const buf = await buffer(req);
 
   let event: any;
