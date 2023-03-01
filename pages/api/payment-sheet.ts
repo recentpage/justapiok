@@ -15,6 +15,8 @@ const stripecheckoutsheet = async (
 
   const customer = await stripe.customers.create();
   const customerid = customer.id;
+
+  console.log("new customerid: ", customerid);
   const { error } = await supabase
     .from("profiles")
     .update({ stripeid: customerid })
@@ -98,11 +100,11 @@ const stripecheckoutsheet = async (
   //   metadata: { userid: userid },
   // });
 
-  // res.status(200).json({
-  //   ephemeralKey: ephemeralKey.secret,
-  //   customer: customerid,
-  //   clientSecret: paymentIntent.client_secret,
-  //   publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
-  // });
+  res.status(200).json({
+    // ephemeralKey: ephemeralKey.secret,
+    // customer: customerid,
+    // clientSecret: paymentIntent.client_secret,
+    // publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+  });
 };
 export default stripecheckoutsheet;
