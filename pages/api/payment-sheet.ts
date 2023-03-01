@@ -17,7 +17,7 @@ export default async function stripecheckoutsheet(
     if (userid) {
       const { data, error } = await supabase
         .from("profiles")
-        .update({ stripeid: customerid })
+        .select("stripeid")
         .eq("id", userid)
         .select();
       console.log("data:", data);
@@ -31,13 +31,7 @@ export default async function stripecheckoutsheet(
           const customer = await stripe.customers.create();
           customerid = customer.id;
           console.log("new customerid:", customerid);
-          const { data, error } = await supabase
-            .from("profiles")
-            .update({ stripeid: customerid, prodate: JSON.stringify(new Date()) })
-            .eq("id", userid)
-            .select();
-          console.log("data:", data);
-          if (error) throw error;
+          await updateStripeId(userid, customerid);
         }
       }
     }
@@ -45,11 +39,8 @@ export default async function stripecheckoutsheet(
     if (!customerid) {
       const customer = await stripe.customers.create();
       customerid = customer.id;
-      const { error } = await supabase
-        .from("profiles")
-        .update({ stripeid: customerid })
-        .eq("id", userid);
-      if (error) throw error;
+      console.log("new customerid: 2", customerid);
+      await updateStripeId(userid, customerid);
     }
 
     const ephemeralKey = await stripe.ephemeralKeys.create(
@@ -77,3 +68,13 @@ export default async function stripecheckoutsheet(
     res.status(500).json({ error: error.message });
   }
 }
+
+const updateStripeId = async (userid: string, stripeid: string) => {
+  const { data, error } = await supabase
+    .from("profiles")
+    .update({ stripeid })
+    .eq("id", userid)
+    .select();
+  console.log("data:", data);
+  if (error) throw error;
+};
