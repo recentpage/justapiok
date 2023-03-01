@@ -72,7 +72,7 @@ export default async function stripecheckoutsheet(
 const updateStripeId = async (userid: string, stripeid: string) => {
   const { data, error } = await supabase
     .from("profiles")
-    .update({ stripeid: JSON.stringify(stripeid) })
+    .update({ stripeid: stripeid })
     .eq("id", userid)
     .select();
   console.log("data:", data);
