@@ -17,7 +17,6 @@ const stripecheckoutsheet = async (
 
   if (userid) {
     //get stripeid from db supabase
-    console.log("userid: ", userid);
     const { data, error } = await supabase
       .from("profiles")
       .select("stripeid")
@@ -28,16 +27,16 @@ const stripecheckoutsheet = async (
     }
     if (data) {
       const stripeid = data[0].stripeid;
-      console.log(stripeid);
       if (stripeid) {
         customerid = stripeid;
+        console.log("old customerid: ", customerid);
       } else {
         //create customer
         const customer = await stripe.customers.create();
         //update customerid
         customerid = customer.id;
         //update db
-        console.log("customerid: ", customerid);
+        console.log("new customerid: ", customerid);
         const { error } = await supabase
           .from("profiles")
           .update({ stripeid: customerid })
