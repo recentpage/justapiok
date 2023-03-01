@@ -17,10 +17,14 @@ const stripecheckoutsheet = async (
   const customerid = customer.id;
 
   console.log("new customerid: ", customerid);
-  const { error } = await supabase
+
+  const { data, error } = await supabase
     .from("profiles")
     .update({ stripeid: customerid })
-    .match({ id: userid });
+    .eq("id", userid);
+    console.log('data');
+    console.log(data);
+
   if (error) {
     console.log(error);
     res.status(500).json({ error: error.message });
@@ -31,6 +35,8 @@ const stripecheckoutsheet = async (
       .from("profiles")
       .select("*")
       .eq("id", userid);
+
+    console.log(data);
     if (error) {
       console.log(error);
       res.status(500).json({ error: error.message });
