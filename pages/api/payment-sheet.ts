@@ -10,7 +10,7 @@ const stripecheckoutsheet = async (
   res: NextApiResponse
 ) => {
   //make payment intent
-  const { amount } = req.body;
+  const { amount, userid } = req.body;
   const customer = await stripe.customers.create();
   const ephemeralKey = await stripe.ephemeralKeys.create(
     { customer: customer.id },
@@ -23,6 +23,7 @@ const stripecheckoutsheet = async (
     automatic_payment_methods: {
       enabled: true,
     },
+    metadata: { userid: userid },
   });
 
   res.status(200).json({
