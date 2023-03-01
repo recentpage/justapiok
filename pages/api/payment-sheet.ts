@@ -39,11 +39,24 @@ const stripecheckoutsheet = async (
       const { error } = await supabase
         .from("profiles")
         .update({ stripeid: customerid })
-        .eq("userid", userid);
+        .eq("id", userid);
       if (error) {
         console.log(error);
         res.status(500).json({ error: error.message });
       }
+    }
+  }
+
+  if (!customerid) {
+    const customer = await stripe.customers.create();
+    customerid = customer.id;
+    const { error } = await supabase
+      .from("profiles")
+      .update({ stripeid: customerid })
+      .eq("id", userid);
+    if (error) {
+      console.log(error);
+      res.status(500).json({ error: error.message });
     }
   }
 
