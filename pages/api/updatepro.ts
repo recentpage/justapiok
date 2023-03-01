@@ -38,7 +38,7 @@ const upgradePro = async (req: NextApiRequest, res: NextApiResponse) => {
           plan: paymentIntent.metadata.plan,
           prodate: new Date().toISOString(),
         })
-        .match({ id: userid });
+        .eq("id", userid);
       if (error) {
         console.log(error);
       }
