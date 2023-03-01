@@ -20,7 +20,7 @@ const stripecheckoutsheet = async (
     const { data, error } = await supabase
       .from("profiles")
       .select("stripeid")
-      .eq("userid", userid);
+      .eq("id", userid);
     if (error) {
       console.log(error);
       res.status(500).json({ error: error.message });
