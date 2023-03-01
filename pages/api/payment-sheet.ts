@@ -18,12 +18,10 @@ const stripecheckoutsheet = async (
 
   console.log("new customerid: ", customerid);
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("profiles")
     .update({ stripeid: customerid })
-    .match({ id: "7b5e8424-3d49-4219-ae03-abb59c89ff16" });
-  console.log("data");
-  console.log(data);
+    .match({ id: userid });
 
   if (error) {
     console.log(error);
