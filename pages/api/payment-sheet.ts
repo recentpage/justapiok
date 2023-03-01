@@ -21,7 +21,7 @@ const stripecheckoutsheet = async (
   const { data, error } = await supabase
     .from("profiles")
     .update({ stripeid: customerid })
-    .eq("id", userid);
+    .eq("id", '7b5e8424-3d49-4219-ae03-abb59c89ff16');
     console.log('data');
     console.log(data);
 
