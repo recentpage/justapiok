@@ -17,6 +17,7 @@ const stripecheckoutsheet = async (
 
   if (userid) {
     //get stripeid from db supabase
+    console.log("userid: ", userid);
     const { data, error } = await supabase
       .from("profiles")
       .select("stripeid")
@@ -27,23 +28,24 @@ const stripecheckoutsheet = async (
     }
     if (data) {
       const stripeid = data[0].stripeid;
-      console.log(data);
+      console.log(stripeid);
       if (stripeid) {
         customerid = stripeid;
-      }
-    } else {
-      //create customer
-      const customer = await stripe.customers.create();
-      //update customerid
-      customerid = customer.id;
-      //update db
-      const { error } = await supabase
-        .from("profiles")
-        .update({ stripeid: customerid })
-        .eq("id", userid);
-      if (error) {
-        console.log(error);
-        res.status(500).json({ error: error.message });
+      } else {
+        //create customer
+        const customer = await stripe.customers.create();
+        //update customerid
+        customerid = customer.id;
+        //update db
+        console.log("customerid: ", customerid);
+        const { error } = await supabase
+          .from("profiles")
+          .update({ stripeid: customerid })
+          .eq("id", userid);
+        if (error) {
+          console.log(error);
+          res.status(500).json({ error: error.message });
+        }
       }
     }
   }
