@@ -17,8 +17,10 @@ export default async function stripecheckoutsheet(
     if (userid) {
       const { data, error } = await supabase
         .from("profiles")
-        .select("stripeid")
-        .eq("id", userid);
+        .update({ stripeid: customerid })
+        .eq("id", userid)
+        .select();
+      console.log("data:", data);
       if (error) throw error;
       if (data) {
         const stripeid = data[0]?.stripeid;
@@ -29,10 +31,12 @@ export default async function stripecheckoutsheet(
           const customer = await stripe.customers.create();
           customerid = customer.id;
           console.log("new customerid:", customerid);
-          const { error } = await supabase
+          const { data, error } = await supabase
             .from("profiles")
             .update({ stripeid: customerid })
-            .eq("id", userid);
+            .eq("id", userid)
+            .select();
+          console.log("data:", data);
           if (error) throw error;
         }
       }
