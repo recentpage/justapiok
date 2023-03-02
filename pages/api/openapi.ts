@@ -49,7 +49,7 @@ const openApi = async (req: NextApiRequest, res: NextApiResponse) => {
   //   console.log(error);
   // }
 
-  res.status(200).json({ text: response });
+  res.status(200).json({ text: JSON.stringify(response) });
 };
 
 export default openApi;
