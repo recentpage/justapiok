@@ -37,7 +37,7 @@ const openApi = async (req: NextApiRequest, res: NextApiResponse) => {
   const { error } = await supabase.from("openai").insert({
     userid: userid,
     prompt: message,
-    aitext: text,
+    aitext: aitext,
     usedtokens: totaltokens,
   });
 
@@ -45,7 +45,7 @@ const openApi = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log(error);
   }
 
-  res.status(200).json({ text: text });
+  res.status(200).json({ text: aitext });
 };
 
 export default openApi;
