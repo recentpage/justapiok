@@ -29,6 +29,7 @@ const openApi = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const text: any = response.data.choices[0].message?.content;
+  const aitext = text.replace(/^\n\n/, "");
   const totaltokens = response.data.usage?.total_tokens;
 
   //make supabase call to save the conversation
