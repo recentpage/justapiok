@@ -10,12 +10,12 @@ const openApi = async (req: NextApiRequest, res: NextApiResponse) => {
     apiKey: process.env.OPENAI_API_KEY,
   });
   const openai = new OpenAIApi(config);
-  // const prompt = `Welcome to JustAIChat!. How can I assist you today? You: ${message}`;
-  const prompt = message;
+  const prompt = `Welcome to JustAIChat!. You: ${message}`;
 
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [{ role: "user", content: prompt }],
+    max_tokens: 200,
   });
 
   if (response.data.choices == null) {
@@ -28,28 +28,23 @@ const openApi = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  console.log(response);
+  const text: any = response.data.choices[0].message?.content;
+  const totaltokens = response.data.usage?.total_tokens;
 
-  // console.log(message, userid, response.data.choices[0].text);
+  //make supabase call to save the conversation
 
-  // const text: any = response.data.choices[0].text;
-  // const aitext = text.replace(/^\n\n/, "");
-  // const totaltokens = response.data.usage?.total_tokens;
+  const { error } = await supabase.from("openai").insert({
+    userid: userid,
+    prompt: message,
+    aitext: text,
+    usedtokens: totaltokens,
+  });
 
-  // //make supabase call to save the conversation
+  if (error) {
+    console.log(error);
+  }
 
-  // const { error } = await supabase.from("openai").insert({
-  //   userid: userid,
-  //   prompt: message,
-  //   aitext: aitext,
-  //   usedtokens: totaltokens,
-  // });
-
-  // if (error) {
-  //   console.log(error);
-  // }
-
-  res.status(200).json({ text: JSON.stringify(response.data.choices) });
+  res.status(200).json({ text: text });
 };
 
 export default openApi;
