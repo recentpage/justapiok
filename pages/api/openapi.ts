@@ -16,6 +16,10 @@ const openApi = async (req: NextApiRequest, res: NextApiResponse) => {
     model: "gpt-3.5-turbo",
     messages: [{ role: "user", content: prompt }],
     max_tokens: 200,
+    temperature: 0.5,
+    top_p: 1,
+    presence_penalty: 0.5,
+    frequency_penalty: 0.5,
   });
 
   if (response.data.choices == null) {
